@@ -155,9 +155,9 @@ def show_regime_returns_form():
     with st.form(key=f'regime_returns_form'):
         col1, col2 = st.columns(2)
         with col1:
-            f_interval = st.selectbox('Forward returns by period', options=interval_dict.keys(), index=2)
+            f_interval = st.selectbox('Forward returns by period', options=interval_dict.keys(), index=4)
         with col2:
-            b_interval = st.selectbox('Backward returns by period', options=interval_dict.keys(), index=2)
+            b_interval = st.selectbox('Backward returns by period', options=interval_dict.keys(), index=4)
 
         if st.form_submit_button(label=f'Submit'):
             f_rolling = interval_dict[f_interval]
