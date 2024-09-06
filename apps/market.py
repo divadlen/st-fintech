@@ -74,7 +74,7 @@ def get_yf_form():
         ticker = st.selectbox('Select ticker', options=TICKER_OPTIONS)
         c1, c2, c3 = st.columns([1,1,1])
         with c1:
-            start_time = st.date_input('Start time', value=date.today()-timedelta(days=360))
+            start_time = st.date_input('Start time', value=date.today()-timedelta(days=1260))
         with c2:
             end_time = st.date_input('End time', value=date.today()-timedelta(days=30))
         with c3:
