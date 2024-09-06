@@ -383,6 +383,7 @@ def make_hist_chart(df:pd.DataFrame, xdata:str, cdata:str):
     opacity= 0.4,
     histnorm= 'probability', 
     color_discrete_sequence=px.colors.qualitative.Plotly,
+    nbins=100,
   )
   fig.update_layout(
       title_text= f'<b>{xdata.upper()}</b>',
