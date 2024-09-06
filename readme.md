@@ -16,8 +16,8 @@ streamlit run main.py
 3. Select rolling window
 4. OPTIONAL: Calculate optimal number of clusters
 5. Apply clustering model on prices and alternative indicators (VIX and Volume by default. No support for other indicators yet)
-![Alt text](assets/img/1.png)
+![Alt text](https://github.com/AnilabsWebTeam/st-fintech/blob/main/assets/imgs/1.png)
 6. Select forward and backward returns by period, labeled by regime
-![Alt text](assets/img/2.png)
+![Alt text](https://github.com/AnilabsWebTeam/st-fintech/blob/main/assets/imgs/2.png)
 7. ??? 
 8. Profit
