@@ -394,7 +394,7 @@ def make_hist_chart(df:pd.DataFrame, xdata:str, cdata:str):
   fig.update_xaxes(
       title_text= '',
   )
-  fig.add_vline(x= 0, line_dash= 'dot', line_color='white')
+  fig.add_vline(x= 0, line_dash= 'dot', line_color='grey')
   return fig
 
 
