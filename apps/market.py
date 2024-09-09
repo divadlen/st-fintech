@@ -27,6 +27,7 @@ def main():
 
     state['silhouette_plot'] = state.get('silhouette_plot', None)
     state['regime_plot'] = state.get('regime_plot', None) 
+    state['regime_bar'] = state.get('regime_bar', None)
     state['regime_labels'] = state.get('regime_labels', None)
     state['fr_fig'] = state.get('fr_fig', None)
     state['br_fig'] = state.get('br_fig', None)
@@ -128,8 +129,14 @@ def show_regime_form():
             labels = model.predict(df)
             colors = px.colors.qualitative.Plotly
             regime_plot = create_regime_plot(df_replace, labels, colors)
+            regime_bar = create_regime_bar(df_replace, labels, colors)
             state['regime_labels'] = labels
             state['regime_plot'] = regime_plot
+            state['regime_bar'] = regime_bar
+
+        if state['regime_bar'] is not None:
+            regime_bar = state['regime_bar']
+            st.plotly_chart(regime_bar, use_container_width=True)
         
         if state['regime_plot'] is not None:
             regime_plot = state['regime_plot']
@@ -304,7 +311,7 @@ def create_regime_plot(df:pd.DataFrame, labels:list, colors:list):
     for k in range(max(labels) + 1):
         d = df[df['regime'] == k]
         fig.add_trace(
-            go.Scatter(x=d.index, y=d.iloc[:, 0].values, legendgroup=k, marker_color=colors[k], name=f'Regime {k+1}', mode='markers'),
+            go.Scatter(x=d.index, y=d.iloc[:, 0].values, legendgroup=k, marker_color=colors[k], name=f'Regime {k}', mode='markers'),
             row=1, col=1,
         )
         for i in range(len(d.columns) - EXCLUDE_N - 1):
@@ -314,13 +321,29 @@ def create_regime_plot(df:pd.DataFrame, labels:list, colors:list):
             )
 
     height = 600 + 200 * (len(d.columns) - EXCLUDE_N - 1)
-    fig.update_layout(height=height)
+    fig.update_layout(height=height, title='Market Close and Alternative Indicators')
     for i in range(len(d.columns) - 1):
         fig.update_yaxes(title_text=f"{d.columns[i]}", row=i + 1, col=1)
     return fig
 
 
 
+def create_regime_bar(df, labels, colors):
+    df['regime'] = labels
+    df['regime'] = df['regime'].astype('category')
+    regime_counts = df['regime'].value_counts().reset_index()
+    regime_counts.columns = ['regime', 'count']
+    regime_counts = regime_counts.sort_values(by=['regime'], ascending=True)
+
+    print(regime_counts)
+    
+    fig = px.bar(regime_counts, x='regime', y='count', color='regime', color_discrete_sequence=colors)
+    fig.update_layout(
+        title='Frequency of Regimes',
+        xaxis_title='Regime',
+        yaxis_title='Frequency'
+    )
+    return fig
 
 
 
@@ -390,7 +413,7 @@ def make_hist_chart(df:pd.DataFrame, xdata:str, cdata:str):
       title_x=0.5,
       height=400,
   )
-  fig.update_yaxes()
+  fig.update_yaxes(title_text='')
   fig.update_xaxes(
       title_text= '',
   )
